@@ -43,6 +43,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_native_splash: ^2.4.7
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -94,3 +95,18 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_native_splash:
+  color: "#FFFFFF"
+  color_dark: "#000000"
+  image: assets/wn-logo-light.png
+  image_dark: assets/wn-logo-dark.png
+  android: true
+  ios: true
+  android_12:
+    color: "#FFFFFF"
+    color_dark: "#000000"
+    image: assets/wn-logo-light.png
+    image_dark: assets/wn-logo-dark.png
+  android_gravity: center
+  ios_content_mode: center
+  web_image_mode: center
