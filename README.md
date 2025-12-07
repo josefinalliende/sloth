@@ -27,6 +27,11 @@ Cause sloths are slow but efficient, and you can find them in Costa Rica 🤙
 just deps              # Install both Flutter and Rust deps
 just deps-flutter      # Flutter dependencies only
 just deps-rust         # Rust dependencies only
+
+# Format code
+just format            # Format both Rust and Dart
+just format-rust       # Format Rust only
+just format-dart       # Format Dart only
 ```
 ## 📚 Resources
 - [Flutter Docs](https://docs.flutter.dev/)
