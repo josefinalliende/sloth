@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart' show ScreenUtilInit;
+import 'package:sloth/screens/login_screen.dart' show LoginScreen;
 import 'package:sloth/src/rust/frb_generated.dart';
 import 'package:sloth/theme.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
           title: 'Sloth',
           theme: lightTheme,
           darkTheme: darkTheme,
-          home: const MyHomePage(title: 'Sloth'),
+          home: const LoginScreen(),
         );
       },
     );
