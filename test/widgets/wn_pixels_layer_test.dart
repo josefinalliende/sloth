@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show Key;
 import 'package:flutter_svg/flutter_svg.dart' show SvgAssetLoader, SvgPicture;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sloth/widgets/wn_pixels_layer.dart' show WnPixelsLayer;
@@ -22,6 +23,16 @@ void main() {
       final svgPicture = tester.widget<SvgPicture>(find.byType(SvgPicture));
       final SvgAssetLoader loader = svgPicture.bytesLoader as SvgAssetLoader;
       expect(loader.assetName, 'assets/svgs/pixels.svg');
+    });
+
+    testWidgets('does not animate by default', (WidgetTester tester) async {
+      await mountStackedWidget(const WnPixelsLayer(), tester);
+      expect(find.byKey(const Key('animation_layer')), findsNothing);
+    });
+
+    testWidgets('animates when isAnimating', (WidgetTester tester) async {
+      await mountStackedWidget(const WnPixelsLayer(isAnimating: true), tester);
+      expect(find.byKey(const Key('animation_layer')), findsOneWidget);
     });
   });
 }
