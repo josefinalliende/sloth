@@ -13,14 +13,21 @@ import 'relays.dart';
 
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `fmt`, `from`
 
-Future<User> getUser({required String pubkey, required bool blockingDataSync}) =>
-    RustLib.instance.api.crateApiUsersGetUser(pubkey: pubkey, blockingDataSync: blockingDataSync);
+Future<User> getUser({
+  required String pubkey,
+  required bool blockingDataSync,
+}) => RustLib.instance.api.crateApiUsersGetUser(
+  pubkey: pubkey,
+  blockingDataSync: blockingDataSync,
+);
 
-Future<FlutterMetadata> userMetadata({required String pubkey, required bool blockingDataSync}) =>
-    RustLib.instance.api.crateApiUsersUserMetadata(
-      pubkey: pubkey,
-      blockingDataSync: blockingDataSync,
-    );
+Future<FlutterMetadata> userMetadata({
+  required String pubkey,
+  required bool blockingDataSync,
+}) => RustLib.instance.api.crateApiUsersUserMetadata(
+  pubkey: pubkey,
+  blockingDataSync: blockingDataSync,
+);
 
 Future<List<Relay>> userRelays({
   required String pubkey,
@@ -32,10 +39,13 @@ Future<List<Relay>> userRelays({
   blockingDataSync: blockingDataSync,
 );
 
-Future<bool> userHasKeyPackage({required String pubkey, required bool blockingDataSync}) => RustLib
-    .instance
-    .api
-    .crateApiUsersUserHasKeyPackage(pubkey: pubkey, blockingDataSync: blockingDataSync);
+Future<bool> userHasKeyPackage({
+  required String pubkey,
+  required bool blockingDataSync,
+}) => RustLib.instance.api.crateApiUsersUserHasKeyPackage(
+  pubkey: pubkey,
+  blockingDataSync: blockingDataSync,
+);
 
 class User {
   final String pubkey;

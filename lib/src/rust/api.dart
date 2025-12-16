@@ -32,7 +32,10 @@ import 'frb_generated.dart';
 Future<WhitenoiseConfig> createWhitenoiseConfig({
   required String dataDir,
   required String logsDir,
-}) => RustLib.instance.api.crateApiCreateWhitenoiseConfig(dataDir: dataDir, logsDir: logsDir);
+}) => RustLib.instance.api.crateApiCreateWhitenoiseConfig(
+  dataDir: dataDir,
+  logsDir: logsDir,
+);
 
 Future<void> initializeWhitenoise({required WhitenoiseConfig config}) =>
     RustLib.instance.api.crateApiInitializeWhitenoise(config: config);

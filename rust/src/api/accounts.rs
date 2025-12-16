@@ -101,15 +101,6 @@ pub async fn export_account_nsec(pubkey: String) -> Result<String, ApiError> {
 }
 
 #[frb]
-pub async fn account_metadata(pubkey: String) -> Result<FlutterMetadata, ApiError> {
-    let whitenoise = Whitenoise::get_instance()?;
-    let pubkey = PublicKey::parse(&pubkey)?;
-    let account = whitenoise.find_account_by_pubkey(&pubkey).await?;
-    let metadata = account.metadata(whitenoise).await?;
-    Ok(metadata.into())
-}
-
-#[frb]
 pub async fn update_account_metadata(
     pubkey: String,
     metadata: &FlutterMetadata,

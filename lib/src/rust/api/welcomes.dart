@@ -13,21 +13,29 @@ import 'error.dart';
 Future<List<Welcome>> pendingWelcomes({required String pubkey}) =>
     RustLib.instance.api.crateApiWelcomesPendingWelcomes(pubkey: pubkey);
 
-Future<Welcome> findWelcomeByEventId({required String pubkey, required String welcomeEventId}) =>
-    RustLib.instance.api.crateApiWelcomesFindWelcomeByEventId(
-      pubkey: pubkey,
-      welcomeEventId: welcomeEventId,
-    );
+Future<Welcome> findWelcomeByEventId({
+  required String pubkey,
+  required String welcomeEventId,
+}) => RustLib.instance.api.crateApiWelcomesFindWelcomeByEventId(
+  pubkey: pubkey,
+  welcomeEventId: welcomeEventId,
+);
 
-Future<void> acceptWelcome({required String pubkey, required String welcomeEventId}) => RustLib
-    .instance
-    .api
-    .crateApiWelcomesAcceptWelcome(pubkey: pubkey, welcomeEventId: welcomeEventId);
+Future<void> acceptWelcome({
+  required String pubkey,
+  required String welcomeEventId,
+}) => RustLib.instance.api.crateApiWelcomesAcceptWelcome(
+  pubkey: pubkey,
+  welcomeEventId: welcomeEventId,
+);
 
-Future<void> declineWelcome({required String pubkey, required String welcomeEventId}) => RustLib
-    .instance
-    .api
-    .crateApiWelcomesDeclineWelcome(pubkey: pubkey, welcomeEventId: welcomeEventId);
+Future<void> declineWelcome({
+  required String pubkey,
+  required String welcomeEventId,
+}) => RustLib.instance.api.crateApiWelcomesDeclineWelcome(
+  pubkey: pubkey,
+  welcomeEventId: welcomeEventId,
+);
 
 /// Converts a GroupId to a hex string representation.
 ///

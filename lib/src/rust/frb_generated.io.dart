@@ -122,7 +122,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  Tag dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTag(dynamic raw);
+  Tag dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerTag(
+    dynamic raw,
+  );
 
   @protected
   ThemeMode dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerThemeMode(
@@ -154,7 +156,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   FlutterEvent dco_decode_box_autoadd_flutter_event(dynamic raw);
 
   @protected
-  FlutterGroupDataUpdate dco_decode_box_autoadd_flutter_group_data_update(dynamic raw);
+  FlutterGroupDataUpdate dco_decode_box_autoadd_flutter_group_data_update(
+    dynamic raw,
+  );
 
   @protected
   FlutterMetadata dco_decode_box_autoadd_flutter_metadata(dynamic raw);
@@ -389,7 +393,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DateTime sse_decode_Chrono_Utc(SseDeserializer deserializer);
 
   @protected
-  Map<String, String> sse_decode_Map_String_String_None(SseDeserializer deserializer);
+  Map<String, String> sse_decode_Map_String_String_None(
+    SseDeserializer deserializer,
+  );
 
   @protected
   AppSettings sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAppSettings(
@@ -440,10 +446,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ApiError sse_decode_box_autoadd_api_error(SseDeserializer deserializer);
 
   @protected
-  FileMetadata sse_decode_box_autoadd_file_metadata(SseDeserializer deserializer);
+  FileMetadata sse_decode_box_autoadd_file_metadata(
+    SseDeserializer deserializer,
+  );
 
   @protected
-  FlutterEvent sse_decode_box_autoadd_flutter_event(SseDeserializer deserializer);
+  FlutterEvent sse_decode_box_autoadd_flutter_event(
+    SseDeserializer deserializer,
+  );
 
   @protected
   FlutterGroupDataUpdate sse_decode_box_autoadd_flutter_group_data_update(
@@ -451,13 +461,17 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  FlutterMetadata sse_decode_box_autoadd_flutter_metadata(SseDeserializer deserializer);
+  FlutterMetadata sse_decode_box_autoadd_flutter_metadata(
+    SseDeserializer deserializer,
+  );
 
   @protected
   Group sse_decode_box_autoadd_group(SseDeserializer deserializer);
 
   @protected
-  WhitenoiseConfig sse_decode_box_autoadd_whitenoise_config(SseDeserializer deserializer);
+  WhitenoiseConfig sse_decode_box_autoadd_whitenoise_config(
+    SseDeserializer deserializer,
+  );
 
   @protected
   ChatMessage sse_decode_chat_message(SseDeserializer deserializer);
@@ -472,7 +486,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   FlutterEvent sse_decode_flutter_event(SseDeserializer deserializer);
 
   @protected
-  FlutterGroupDataUpdate sse_decode_flutter_group_data_update(SseDeserializer deserializer);
+  FlutterGroupDataUpdate sse_decode_flutter_group_data_update(
+    SseDeserializer deserializer,
+  );
 
   @protected
   FlutterMetadata sse_decode_flutter_metadata(SseDeserializer deserializer);
@@ -511,16 +527,22 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<ChatMessage> sse_decode_list_chat_message(SseDeserializer deserializer);
 
   @protected
-  List<EmojiReaction> sse_decode_list_emoji_reaction(SseDeserializer deserializer);
+  List<EmojiReaction> sse_decode_list_emoji_reaction(
+    SseDeserializer deserializer,
+  );
 
   @protected
-  List<FlutterEvent> sse_decode_list_flutter_event(SseDeserializer deserializer);
+  List<FlutterEvent> sse_decode_list_flutter_event(
+    SseDeserializer deserializer,
+  );
 
   @protected
   List<Group> sse_decode_list_group(SseDeserializer deserializer);
 
   @protected
-  List<GroupInformation> sse_decode_list_group_information(SseDeserializer deserializer);
+  List<GroupInformation> sse_decode_list_group_information(
+    SseDeserializer deserializer,
+  );
 
   @protected
   List<MediaFile> sse_decode_list_media_file(SseDeserializer deserializer);
@@ -529,19 +551,25 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
 
   @protected
-  List<(String, String)> sse_decode_list_record_string_string(SseDeserializer deserializer);
+  List<(String, String)> sse_decode_list_record_string_string(
+    SseDeserializer deserializer,
+  );
 
   @protected
   List<Relay> sse_decode_list_relay(SseDeserializer deserializer);
 
   @protected
-  List<SerializableToken> sse_decode_list_serializable_token(SseDeserializer deserializer);
+  List<SerializableToken> sse_decode_list_serializable_token(
+    SseDeserializer deserializer,
+  );
 
   @protected
   List<User> sse_decode_list_user(SseDeserializer deserializer);
 
   @protected
-  List<UserReaction> sse_decode_list_user_reaction(SseDeserializer deserializer);
+  List<UserReaction> sse_decode_list_user_reaction(
+    SseDeserializer deserializer,
+  );
 
   @protected
   List<Welcome> sse_decode_list_welcome(SseDeserializer deserializer);
@@ -550,7 +578,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   MediaFile sse_decode_media_file(SseDeserializer deserializer);
 
   @protected
-  MessageWithTokens sse_decode_message_with_tokens(SseDeserializer deserializer);
+  MessageWithTokens sse_decode_message_with_tokens(
+    SseDeserializer deserializer,
+  );
 
   @protected
   String? sse_decode_opt_String(SseDeserializer deserializer);
@@ -559,10 +589,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DateTime? sse_decode_opt_box_autoadd_Chrono_Utc(SseDeserializer deserializer);
 
   @protected
-  FileMetadata? sse_decode_opt_box_autoadd_file_metadata(SseDeserializer deserializer);
+  FileMetadata? sse_decode_opt_box_autoadd_file_metadata(
+    SseDeserializer deserializer,
+  );
 
   @protected
-  FlutterEvent? sse_decode_opt_box_autoadd_flutter_event(SseDeserializer deserializer);
+  FlutterEvent? sse_decode_opt_box_autoadd_flutter_event(
+    SseDeserializer deserializer,
+  );
 
   @protected
   List<Tag>?
@@ -583,7 +617,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ReactionSummary sse_decode_reaction_summary(SseDeserializer deserializer);
 
   @protected
-  (String, String) sse_decode_record_string_string(SseDeserializer deserializer);
+  (String, String) sse_decode_record_string_string(
+    SseDeserializer deserializer,
+  );
 
   @protected
   Relay sse_decode_relay(SseDeserializer deserializer);
@@ -613,7 +649,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_decode_unit(SseDeserializer deserializer);
 
   @protected
-  UploadGroupImageResult sse_decode_upload_group_image_result(SseDeserializer deserializer);
+  UploadGroupImageResult sse_decode_upload_group_image_result(
+    SseDeserializer deserializer,
+  );
 
   @protected
   User sse_decode_user(SseDeserializer deserializer);
@@ -688,7 +726,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_Chrono_Utc(DateTime self, SseSerializer serializer);
 
   @protected
-  void sse_encode_Map_String_String_None(Map<String, String> self, SseSerializer serializer);
+  void sse_encode_Map_String_String_None(
+    Map<String, String> self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAppSettings(
@@ -739,16 +780,28 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_bool(bool self, SseSerializer serializer);
 
   @protected
-  void sse_encode_box_autoadd_Chrono_Utc(DateTime self, SseSerializer serializer);
+  void sse_encode_box_autoadd_Chrono_Utc(
+    DateTime self,
+    SseSerializer serializer,
+  );
 
   @protected
-  void sse_encode_box_autoadd_api_error(ApiError self, SseSerializer serializer);
+  void sse_encode_box_autoadd_api_error(
+    ApiError self,
+    SseSerializer serializer,
+  );
 
   @protected
-  void sse_encode_box_autoadd_file_metadata(FileMetadata self, SseSerializer serializer);
+  void sse_encode_box_autoadd_file_metadata(
+    FileMetadata self,
+    SseSerializer serializer,
+  );
 
   @protected
-  void sse_encode_box_autoadd_flutter_event(FlutterEvent self, SseSerializer serializer);
+  void sse_encode_box_autoadd_flutter_event(
+    FlutterEvent self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_box_autoadd_flutter_group_data_update(
@@ -757,13 +810,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  void sse_encode_box_autoadd_flutter_metadata(FlutterMetadata self, SseSerializer serializer);
+  void sse_encode_box_autoadd_flutter_metadata(
+    FlutterMetadata self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_box_autoadd_group(Group self, SseSerializer serializer);
 
   @protected
-  void sse_encode_box_autoadd_whitenoise_config(WhitenoiseConfig self, SseSerializer serializer);
+  void sse_encode_box_autoadd_whitenoise_config(
+    WhitenoiseConfig self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_chat_message(ChatMessage self, SseSerializer serializer);
@@ -778,16 +837,25 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_flutter_event(FlutterEvent self, SseSerializer serializer);
 
   @protected
-  void sse_encode_flutter_group_data_update(FlutterGroupDataUpdate self, SseSerializer serializer);
+  void sse_encode_flutter_group_data_update(
+    FlutterGroupDataUpdate self,
+    SseSerializer serializer,
+  );
 
   @protected
-  void sse_encode_flutter_metadata(FlutterMetadata self, SseSerializer serializer);
+  void sse_encode_flutter_metadata(
+    FlutterMetadata self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_group(Group self, SseSerializer serializer);
 
   @protected
-  void sse_encode_group_information(GroupInformation self, SseSerializer serializer);
+  void sse_encode_group_information(
+    GroupInformation self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_group_state(GroupState self, SseSerializer serializer);
@@ -814,40 +882,67 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_list_account(List<Account> self, SseSerializer serializer);
 
   @protected
-  void sse_encode_list_chat_message(List<ChatMessage> self, SseSerializer serializer);
+  void sse_encode_list_chat_message(
+    List<ChatMessage> self,
+    SseSerializer serializer,
+  );
 
   @protected
-  void sse_encode_list_emoji_reaction(List<EmojiReaction> self, SseSerializer serializer);
+  void sse_encode_list_emoji_reaction(
+    List<EmojiReaction> self,
+    SseSerializer serializer,
+  );
 
   @protected
-  void sse_encode_list_flutter_event(List<FlutterEvent> self, SseSerializer serializer);
+  void sse_encode_list_flutter_event(
+    List<FlutterEvent> self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_list_group(List<Group> self, SseSerializer serializer);
 
   @protected
-  void sse_encode_list_group_information(List<GroupInformation> self, SseSerializer serializer);
+  void sse_encode_list_group_information(
+    List<GroupInformation> self,
+    SseSerializer serializer,
+  );
 
   @protected
-  void sse_encode_list_media_file(List<MediaFile> self, SseSerializer serializer);
+  void sse_encode_list_media_file(
+    List<MediaFile> self,
+    SseSerializer serializer,
+  );
 
   @protected
-  void sse_encode_list_prim_u_8_strict(Uint8List self, SseSerializer serializer);
+  void sse_encode_list_prim_u_8_strict(
+    Uint8List self,
+    SseSerializer serializer,
+  );
 
   @protected
-  void sse_encode_list_record_string_string(List<(String, String)> self, SseSerializer serializer);
+  void sse_encode_list_record_string_string(
+    List<(String, String)> self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_list_relay(List<Relay> self, SseSerializer serializer);
 
   @protected
-  void sse_encode_list_serializable_token(List<SerializableToken> self, SseSerializer serializer);
+  void sse_encode_list_serializable_token(
+    List<SerializableToken> self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_list_user(List<User> self, SseSerializer serializer);
 
   @protected
-  void sse_encode_list_user_reaction(List<UserReaction> self, SseSerializer serializer);
+  void sse_encode_list_user_reaction(
+    List<UserReaction> self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_list_welcome(List<Welcome> self, SseSerializer serializer);
@@ -856,19 +951,31 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_media_file(MediaFile self, SseSerializer serializer);
 
   @protected
-  void sse_encode_message_with_tokens(MessageWithTokens self, SseSerializer serializer);
+  void sse_encode_message_with_tokens(
+    MessageWithTokens self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_opt_String(String? self, SseSerializer serializer);
 
   @protected
-  void sse_encode_opt_box_autoadd_Chrono_Utc(DateTime? self, SseSerializer serializer);
+  void sse_encode_opt_box_autoadd_Chrono_Utc(
+    DateTime? self,
+    SseSerializer serializer,
+  );
 
   @protected
-  void sse_encode_opt_box_autoadd_file_metadata(FileMetadata? self, SseSerializer serializer);
+  void sse_encode_opt_box_autoadd_file_metadata(
+    FileMetadata? self,
+    SseSerializer serializer,
+  );
 
   @protected
-  void sse_encode_opt_box_autoadd_flutter_event(FlutterEvent? self, SseSerializer serializer);
+  void sse_encode_opt_box_autoadd_flutter_event(
+    FlutterEvent? self,
+    SseSerializer serializer,
+  );
 
   @protected
   void
@@ -887,16 +994,25 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_opt_u_8_array_32(U8Array32? self, SseSerializer serializer);
 
   @protected
-  void sse_encode_reaction_summary(ReactionSummary self, SseSerializer serializer);
+  void sse_encode_reaction_summary(
+    ReactionSummary self,
+    SseSerializer serializer,
+  );
 
   @protected
-  void sse_encode_record_string_string((String, String) self, SseSerializer serializer);
+  void sse_encode_record_string_string(
+    (String, String) self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_relay(Relay self, SseSerializer serializer);
 
   @protected
-  void sse_encode_serializable_token(SerializableToken self, SseSerializer serializer);
+  void sse_encode_serializable_token(
+    SerializableToken self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_u_16(int self, SseSerializer serializer);
@@ -920,7 +1036,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_unit(void self, SseSerializer serializer);
 
   @protected
-  void sse_encode_upload_group_image_result(UploadGroupImageResult self, SseSerializer serializer);
+  void sse_encode_upload_group_image_result(
+    UploadGroupImageResult self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_user(User self, SseSerializer serializer);
@@ -938,7 +1057,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_welcome_state(WelcomeState self, SseSerializer serializer);
 
   @protected
-  void sse_encode_whitenoise_config(WhitenoiseConfig self, SseSerializer serializer);
+  void sse_encode_whitenoise_config(
+    WhitenoiseConfig self,
+    SseSerializer serializer,
+  );
 }
 
 // Section: wire_class
