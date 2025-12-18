@@ -1,9 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:logging/logging.dart';
 import 'package:sloth/src/rust/api/accounts.dart' as accounts_api;
 import 'package:sloth/src/rust/api/users.dart' as users_api;
 
 const _storageKey = 'active_account_pubkey';
+final _logger = Logger('AuthNotifier');
 
 final secureStorageProvider = Provider<FlutterSecureStorage>(
   (_) => const FlutterSecureStorage(),
@@ -18,18 +20,22 @@ class AuthNotifier extends AsyncNotifier<String?> {
   }
 
   Future<void> login(String nsec) async {
+    _logger.info('Login attempt started');
     final storage = ref.read(secureStorageProvider);
     final account = await accounts_api.login(nsecOrHexPrivkey: nsec);
     users_api.userMetadata(pubkey: account.pubkey, blockingDataSync: false);
     await storage.write(key: _storageKey, value: account.pubkey);
     state = AsyncData(account.pubkey);
+    _logger.info('Login successful');
   }
 
   Future<String> signup() async {
+    _logger.info('Signup started');
     final storage = ref.read(secureStorageProvider);
     final account = await accounts_api.createIdentity();
     await storage.write(key: _storageKey, value: account.pubkey);
     state = AsyncData(account.pubkey);
+    _logger.info('Signup successful - identity created');
     return account.pubkey;
   }
 
@@ -37,10 +43,12 @@ class AuthNotifier extends AsyncNotifier<String?> {
     final pubkey = state.value;
     if (pubkey == null) return;
 
+    _logger.info('Logout started');
     final storage = ref.read(secureStorageProvider);
     await accounts_api.logout(pubkey: pubkey);
     await storage.delete(key: _storageKey);
     state = const AsyncData(null);
+    _logger.info('Logout successful');
   }
 }
 

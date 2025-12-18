@@ -1,7 +1,10 @@
+import 'package:logging/logging.dart';
 import 'package:sloth/src/rust/api/accounts.dart' as accounts_api;
 import 'package:sloth/src/rust/api/metadata.dart' show FlutterMetadata;
 import 'package:sloth/src/rust/api/utils.dart' as utils_api;
 import 'package:sloth/utils/mime_type.dart' show getMimeType;
+
+final _logger = Logger('ProfileService');
 
 class ProfileService {
   final String pubkey;
@@ -13,6 +16,7 @@ class ProfileService {
     String? about,
     String? pictureUrl,
   }) async {
+    _logger.info('Updating profile');
     final metadata = FlutterMetadata(
       displayName: displayName,
       about: about,
@@ -20,21 +24,26 @@ class ProfileService {
       custom: const {},
     );
     await accounts_api.updateAccountMetadata(pubkey: pubkey, metadata: metadata);
+    _logger.info('Profile updated successfully');
   }
 
   Future<String> uploadProfilePicture({
     required String filePath,
   }) async {
+    _logger.info('Uploading profile picture');
     final serverUrl = await utils_api.getDefaultBlossomServerUrl();
     final imageType = await getMimeType(filePath);
     if (imageType == null) {
+      _logger.warning('Failed to determine image type');
       throw Exception('Failed to get image type');
     }
-    return accounts_api.uploadAccountProfilePicture(
+    final url = await accounts_api.uploadAccountProfilePicture(
       pubkey: pubkey,
       serverUrl: serverUrl,
       filePath: filePath,
       imageType: imageType,
     );
+    _logger.info('Profile picture uploaded successfully');
+    return url;
   }
 }
