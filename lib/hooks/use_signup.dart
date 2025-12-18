@@ -1,7 +1,10 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:sloth/providers/auth_provider.dart' show authProvider;
 import 'package:sloth/services/profile_service.dart' show ProfileService;
+
+final _logger = Logger('useSignup');
 
 class SignupState {
   final bool isLoading;
@@ -92,8 +95,10 @@ useSignup(WidgetRef ref) {
       );
 
       state.value = state.value.copyWith(isLoading: false);
+      _logger.info('Signup flow completed successfully');
       return true;
-    } catch (e) {
+    } catch (e, stackTrace) {
+      _logger.severe('Signup failed', e, stackTrace);
       state.value = state.value.copyWith(
         isLoading: false,
         error: 'Oh no! An error occurred, please try again.',
