@@ -113,10 +113,17 @@ test-flutter:
     @echo "🧪 Testing Flutter code..."
     @if [ -d "test" ]; then flutter test; else echo "No test directory found. Create tests in test/ directory."; fi
 
+
 coverage min="80":
     @echo "🧪 Running Flutter tests with coverage..."
     flutter test --coverage && \
-        ./scripts/check-coverage.sh --min {{min}}; \
+        ./scripts/check-coverage.sh --min {{min}}
+
+coverage-report:
+  @echo "🧪 Generating coverage report..."
+  flutter test --coverage  && \
+  genhtml coverage/lcov.info -o coverage/html
+  @echo "📊 Coverage report generated at coverage/html/index.html"
 
 # ==============================================================================
 # CLEANING

@@ -17,8 +17,9 @@ Future<RelayType> relayTypeInbox() => RustLib.instance.api.crateApiRelaysRelayTy
 
 Future<RelayType> relayTypeKeyPackage() => RustLib.instance.api.crateApiRelaysRelayTypeKeyPackage();
 
-Future<List<(String, String)>> getAccountRelayStatuses({required String pubkey}) =>
-    RustLib.instance.api.crateApiRelaysGetAccountRelayStatuses(pubkey: pubkey);
+Future<List<(String, String)>> getAccountRelayStatuses({
+  required String pubkey,
+}) => RustLib.instance.api.crateApiRelaysGetAccountRelayStatuses(pubkey: pubkey);
 
 /// Ensures all subscriptions (global and all accounts) are operational.
 ///

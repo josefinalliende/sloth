@@ -29,11 +29,13 @@ Future<void> logout({required String pubkey}) =>
 Future<String> exportAccountNsec({required String pubkey}) =>
     RustLib.instance.api.crateApiAccountsExportAccountNsec(pubkey: pubkey);
 
-Future<FlutterMetadata> accountMetadata({required String pubkey}) =>
-    RustLib.instance.api.crateApiAccountsAccountMetadata(pubkey: pubkey);
-
-Future<void> updateAccountMetadata({required String pubkey, required FlutterMetadata metadata}) =>
-    RustLib.instance.api.crateApiAccountsUpdateAccountMetadata(pubkey: pubkey, metadata: metadata);
+Future<void> updateAccountMetadata({
+  required String pubkey,
+  required FlutterMetadata metadata,
+}) => RustLib.instance.api.crateApiAccountsUpdateAccountMetadata(
+  pubkey: pubkey,
+  metadata: metadata,
+);
 
 Future<String> uploadAccountProfilePicture({
   required String pubkey,
@@ -47,8 +49,13 @@ Future<String> uploadAccountProfilePicture({
   imageType: imageType,
 );
 
-Future<List<Relay>> accountRelays({required String pubkey, required RelayType relayType}) =>
-    RustLib.instance.api.crateApiAccountsAccountRelays(pubkey: pubkey, relayType: relayType);
+Future<List<Relay>> accountRelays({
+  required String pubkey,
+  required RelayType relayType,
+}) => RustLib.instance.api.crateApiAccountsAccountRelays(
+  pubkey: pubkey,
+  relayType: relayType,
+);
 
 Future<void> addAccountRelay({
   required String pubkey,
@@ -73,11 +80,16 @@ Future<void> removeAccountRelay({
 Future<FlutterEvent?> accountKeyPackage({required String pubkey}) =>
     RustLib.instance.api.crateApiAccountsAccountKeyPackage(pubkey: pubkey);
 
-Future<List<FlutterEvent>> accountKeyPackages({required String accountPubkey}) =>
-    RustLib.instance.api.crateApiAccountsAccountKeyPackages(accountPubkey: accountPubkey);
+Future<List<FlutterEvent>> accountKeyPackages({
+  required String accountPubkey,
+}) => RustLib.instance.api.crateApiAccountsAccountKeyPackages(
+  accountPubkey: accountPubkey,
+);
 
 Future<void> publishAccountKeyPackage({required String accountPubkey}) =>
-    RustLib.instance.api.crateApiAccountsPublishAccountKeyPackage(accountPubkey: accountPubkey);
+    RustLib.instance.api.crateApiAccountsPublishAccountKeyPackage(
+      accountPubkey: accountPubkey,
+    );
 
 Future<bool> deleteAccountKeyPackage({
   required String accountPubkey,
@@ -88,22 +100,28 @@ Future<bool> deleteAccountKeyPackage({
 );
 
 Future<BigInt> deleteAccountKeyPackages({required String accountPubkey}) =>
-    RustLib.instance.api.crateApiAccountsDeleteAccountKeyPackages(accountPubkey: accountPubkey);
+    RustLib.instance.api.crateApiAccountsDeleteAccountKeyPackages(
+      accountPubkey: accountPubkey,
+    );
 
 Future<List<User>> accountFollows({required String pubkey}) =>
     RustLib.instance.api.crateApiAccountsAccountFollows(pubkey: pubkey);
 
-Future<void> followUser({required String accountPubkey, required String userToFollowPubkey}) =>
-    RustLib.instance.api.crateApiAccountsFollowUser(
-      accountPubkey: accountPubkey,
-      userToFollowPubkey: userToFollowPubkey,
-    );
+Future<void> followUser({
+  required String accountPubkey,
+  required String userToFollowPubkey,
+}) => RustLib.instance.api.crateApiAccountsFollowUser(
+  accountPubkey: accountPubkey,
+  userToFollowPubkey: userToFollowPubkey,
+);
 
-Future<void> unfollowUser({required String accountPubkey, required String userToUnfollowPubkey}) =>
-    RustLib.instance.api.crateApiAccountsUnfollowUser(
-      accountPubkey: accountPubkey,
-      userToUnfollowPubkey: userToUnfollowPubkey,
-    );
+Future<void> unfollowUser({
+  required String accountPubkey,
+  required String userToUnfollowPubkey,
+}) => RustLib.instance.api.crateApiAccountsUnfollowUser(
+  accountPubkey: accountPubkey,
+  userToUnfollowPubkey: userToUnfollowPubkey,
+);
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<RelayType>>
 abstract class RelayType implements RustOpaqueInterface {}

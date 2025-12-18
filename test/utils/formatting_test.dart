@@ -1,0 +1,60 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:sloth/utils/formatting.dart';
+
+void main() {
+  group('formatPublicKey', () {
+    test('adds space every 5 chars', () {
+      expect(formatPublicKey('abcdefghij'), 'abcde fghij ');
+    });
+
+    test('leaves remainder without trailing space', () {
+      expect(formatPublicKey('abcdefgh'), 'abcde fgh');
+    });
+
+    test('returns empty for empty input', () {
+      expect(formatPublicKey(''), '');
+    });
+
+    test('returns unchanged if less than 5 chars', () {
+      expect(formatPublicKey('abc'), 'abc');
+    });
+  });
+
+  group('formatInitials', () {
+    test('returns null for null input', () {
+      expect(formatInitials(null), isNull);
+    });
+
+    test('returns null for empty string', () {
+      expect(formatInitials(''), isNull);
+    });
+
+    test('returns single initial for single word', () {
+      expect(formatInitials('Alice'), 'A');
+    });
+
+    test('returns two initials for two words', () {
+      expect(formatInitials('Alice Bob'), 'AB');
+    });
+
+    test('uses only first two words when more provided', () {
+      expect(formatInitials('Alice Bob Charlie'), 'AB');
+    });
+
+    test('converts to uppercase', () {
+      expect(formatInitials('alice bob'), 'AB');
+    });
+
+    test('handles multiple consecutive spaces', () {
+      expect(formatInitials('John  Doe'), 'JD');
+    });
+
+    test('handles leading and trailing whitespace', () {
+      expect(formatInitials('  Alice  '), 'A');
+    });
+
+    test('returns null for whitespace-only string', () {
+      expect(formatInitials('   '), isNull);
+    });
+  });
+}
