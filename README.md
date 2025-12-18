@@ -6,6 +6,18 @@ A playground messaging app for experimenting with the [whitenoise rust crate �
 **Why sloth?**
 Cause sloths are slow but efficient, and you can find them in Costa Rica 🤙
 
+## Structure
+
+```
+lib/
+├── providers/     # Shared state
+├── hooks/         # Ephemeral widget state
+├── services/      # Stateless operations (API calls)
+├── screens/       # Full-page components
+├── widgets/       # Reusable components
+```
+
+
 
 ## 🏗️ Stack
 - [Flutter](https://docs.flutter.dev/)
@@ -32,7 +44,41 @@ just deps-rust         # Rust dependencies only
 just format            # Format both Rust and Dart
 just format-rust       # Format Rust only
 just format-dart       # Format Dart only
+
+# Coverage
+just coverage          # Checks tests coverage
 ```
+
+### Coverage Report
+
+You need to install lcov to generate report
+```bash
+# Mac OS
+brew install lcov
+
+# Linux
+apt-get install lcov
+```
+
+```bash
+# First run tests with coverage option
+flutter test --coverage
+# Generate coverage html report
+genhtml coverage/lcov.info -o coverage/html 
+# Open coverage/html/index.html in your browser
+```
+
+
+## Sloth mode 🦥
+- Sloths know complexity is bad, very bad.
+- Sloths work hard to keep this app thin. 
+- Sloths test their code.
+- Sloths delete dead code. Commented code is dead code.
+- Sloths use the White Noise Rust crate 🦀 as the source of truth.
+- Sloths avoid caching in flutter side. Sloths remember that White Noise crate already persists data in a local DB.
+- Sloths put shared app state in providers.
+- Sloths put ephemeral widget state in hooks.
+
 ## 📚 Resources
 - [Flutter Docs](https://docs.flutter.dev/)
 - [White Noise Rust crate](https://github.com/marmot-protocol/whitenoise-rs)

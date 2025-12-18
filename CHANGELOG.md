@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI github action [PR #2](https://github.com/marmot-protocol/sloth/pull/2)
 - Dependabot action [PR #3](https://github.com/marmot-protocol/sloth/pull/3)
 - Base components [PR #4](https://github.com/marmot-protocol/sloth/pull/4)
+- Coverage CI check [PR #5](https://github.com/marmot-protocol/sloth/pull/5)
+- Auth, routing and main screens [PR #6](https://github.com/marmot-protocol/sloth/pull/6)
 
 ### Changed
 
