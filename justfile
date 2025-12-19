@@ -121,7 +121,8 @@ coverage min="80":
 
 coverage-report:
   @echo "🧪 Generating coverage report..."
-  flutter test --coverage  && \
+  flutter test --coverage && \
+  ./scripts/check-coverage.sh && \
   genhtml coverage/lcov.info -o coverage/html
   @echo "📊 Coverage report generated at coverage/html/index.html"
 
