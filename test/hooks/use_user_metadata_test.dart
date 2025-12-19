@@ -1,10 +1,13 @@
 import 'dart:async' show Completer;
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sloth/hooks/use_route_refresh.dart';
 import 'package:sloth/hooks/use_user_metadata.dart';
 import 'package:sloth/src/rust/api/metadata.dart';
 import 'package:sloth/src/rust/frb_generated.dart';
-import '../test_helpers.dart';
+
+const _emptyMetadata = FlutterMetadata(custom: {});
 
 const _slothMetadata = FlutterMetadata(
   name: 'Sloth',
@@ -19,22 +22,65 @@ const _slothMetadata = FlutterMetadata(
 
 late AsyncSnapshot<FlutterMetadata> Function() getResult;
 
-Future<void> _pump(WidgetTester tester, String pubkey) async {
-  getResult = await mountHook(tester, () => useUserMetadata(pubkey));
+Future<void> _mountHook(WidgetTester tester, String pubkey) async {
+  await tester.pumpWidget(
+    MaterialApp(
+      home: HookBuilder(
+        builder: (context) {
+          final result = useUserMetadata(context, pubkey);
+          getResult = () => result;
+          return const SizedBox();
+        },
+      ),
+    ),
+  );
 }
 
-enum _MockMode { loading, success, error }
+Future<void> _mountHookWithNavigation(WidgetTester tester, String pubkey) async {
+  await tester.pumpWidget(
+    MaterialApp(
+      navigatorObservers: [routeObserver],
+      home: HookBuilder(
+        builder: (context) {
+          final result = useUserMetadata(context, pubkey);
+          getResult = () => result;
+          return ElevatedButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute<void>(builder: (_) => const _SecondPage()),
+            ),
+            child: const Text('push'),
+          );
+        },
+      ),
+    ),
+  );
+}
+
+class _SecondPage extends StatelessWidget {
+  const _SecondPage();
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () => Navigator.pop(context),
+      child: const Text('pop'),
+    );
+  }
+}
+
+enum _MockMode { loading, success, error, emptyThenSuccess }
 
 class _MockApi implements RustLibApi {
   _MockMode mode = _MockMode.success;
-  final calls = <String>[];
+  final calls = <({String pubkey, bool blocking})>[];
 
   @override
   Future<FlutterMetadata> crateApiUsersUserMetadata({
     required bool blockingDataSync,
     required String pubkey,
   }) {
-    calls.add(pubkey);
+    calls.add((pubkey: pubkey, blocking: blockingDataSync));
     switch (mode) {
       case _MockMode.loading:
         return Completer<FlutterMetadata>().future;
@@ -42,6 +88,8 @@ class _MockApi implements RustLibApi {
         return Future.value(_slothMetadata);
       case _MockMode.error:
         return Future.error(Exception('fail'));
+      case _MockMode.emptyThenSuccess:
+        return blockingDataSync ? Future.value(_slothMetadata) : Future.value(_emptyMetadata);
     }
   }
 
@@ -61,35 +109,61 @@ void main() {
       setUp(() => _api.mode = _MockMode.loading);
 
       testWidgets('is loading while waiting', (tester) async {
-        await _pump(tester, 'pk1');
+        await _mountHook(tester, 'pk1');
 
         expect(getResult().connectionState, equals(ConnectionState.waiting));
       });
     });
 
     group('success', () {
-      setUp(() => _api.mode = _MockMode.success);
+      group('when db has data', () {
+        setUp(() => _api.mode = _MockMode.success);
 
-      testWidgets('returns data on success', (tester) async {
-        await _pump(tester, 'pk1');
-        await tester.pump();
+        testWidgets('returns expected metadata', (tester) async {
+          await _mountHook(tester, 'pk1');
+          await tester.pump();
 
-        expect(getResult().data, isA<FlutterMetadata>());
-        expect(getResult().data, equals(_slothMetadata));
+          expect(getResult().data, equals(_slothMetadata));
+        });
+
+        testWidgets('does not refetch when rebuilt with same pubkey', (tester) async {
+          await _mountHook(tester, 'pk1');
+          await _mountHook(tester, 'pk1');
+
+          expect(_api.calls.length, 1);
+        });
+
+        testWidgets('calls with blockingDataSync false', (tester) async {
+          await _mountHook(tester, 'pk1');
+          await tester.pump();
+
+          expect(_api.calls.single.blocking, isFalse);
+        });
+
+        testWidgets('refetches when pubkey changes', (tester) async {
+          await _mountHook(tester, 'pk1');
+          await _mountHook(tester, 'pk2');
+
+          expect(_api.calls.length, 2);
+        });
       });
 
-      testWidgets('does not refetch when rebuilt with same pubkey', (tester) async {
-        await _pump(tester, 'pk1');
-        await _pump(tester, 'pk1');
+      group('when db metadata has no name, displayName, or picture', () {
+        setUp(() => _api.mode = _MockMode.emptyThenSuccess);
 
-        expect(_api.calls, ['pk1']);
-      });
+        testWidgets('calls again with blockingDataSync true', (tester) async {
+          await _mountHook(tester, 'pk1');
+          await tester.pump();
 
-      testWidgets('refetches when pubkey changes', (tester) async {
-        await _pump(tester, 'pk1');
-        await _pump(tester, 'pk2');
+          expect(_api.calls.last.blocking, isTrue);
+        });
 
-        expect(_api.calls, ['pk1', 'pk2']);
+        testWidgets('returns blocking result', (tester) async {
+          await _mountHook(tester, 'pk1');
+          await tester.pump();
+
+          expect(getResult().data, equals(_slothMetadata));
+        });
       });
     });
 
@@ -97,10 +171,25 @@ void main() {
       setUp(() => _api.mode = _MockMode.error);
 
       testWidgets('returns error on failure', (tester) async {
-        await _pump(tester, 'pk1');
+        await _mountHook(tester, 'pk1');
         await tester.pump();
 
         expect(getResult().hasError, isTrue);
+      });
+    });
+
+    group('refresh on route change', () {
+      setUp(() => _api.mode = _MockMode.success);
+
+      testWidgets('refetches when route changes', (tester) async {
+        await _mountHookWithNavigation(tester, 'pk1');
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('push'));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('pop'));
+        await tester.pumpAndSettle();
+
+        expect(_api.calls.length, 2);
       });
     });
   });

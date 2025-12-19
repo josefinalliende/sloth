@@ -17,7 +17,7 @@ class WnAccountBar extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
     final pubkey = ref.watch(accountPubkeyProvider);
-    final metadataSnapshot = useUserMetadata(pubkey);
+    final metadataSnapshot = useUserMetadata(context, pubkey);
 
     final metadata = metadataSnapshot.data;
 
