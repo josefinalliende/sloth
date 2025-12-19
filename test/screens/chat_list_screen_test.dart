@@ -29,6 +29,7 @@ Welcome _welcome(String id) => Welcome(
 
 class _MockApi implements RustLibApi {
   List<Welcome> welcomes = [];
+  int welcomesCallCount = 0;
 
   @override
   Future<FlutterMetadata> crateApiUsersUserMetadata({
@@ -39,7 +40,10 @@ class _MockApi implements RustLibApi {
   @override
   Future<List<Welcome>> crateApiWelcomesPendingWelcomes({
     required String pubkey,
-  }) async => welcomes;
+  }) async {
+    welcomesCallCount++;
+    return welcomes;
+  }
 
   @override
   Future<Welcome> crateApiWelcomesFindWelcomeByEventId({
@@ -64,7 +68,10 @@ final _api = _MockApi();
 void main() {
   setUpAll(() => RustLib.initMock(api: _api));
 
-  setUp(() => _api.welcomes = []);
+  setUp(() {
+    _api.welcomes = [];
+    _api.welcomesCallCount = 0;
+  });
 
   Future<void> pumpChatListScreen(WidgetTester tester) async {
     tester.view.physicalSize = const Size(390, 844);
@@ -111,21 +118,34 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(WipScreen), findsOneWidget);
     });
+
+    group('without welcomes', () {
+      setUp(() => _api.welcomes = []);
+      testWidgets('shows no chats message', (tester) async {
+        await pumpChatListScreen(tester);
+        expect(find.text('No chats yet'), findsOneWidget);
+      });
+
+      testWidgets('shows pull to refresh hint', (tester) async {
+        await pumpChatListScreen(tester);
+        expect(find.text('Pull down to refresh'), findsOneWidget);
+      });
+
+      testWidgets('pull to refresh triggers refetch', (tester) async {
+        await pumpChatListScreen(tester);
+        final callsBefore = _api.welcomesCallCount;
+        await tester.fling(
+          find.byType(SingleChildScrollView),
+          const Offset(0, 300),
+          1000,
+        );
+        await tester.pumpAndSettle();
+        expect(_api.welcomesCallCount, greaterThan(callsBefore));
+      });
+    });
   });
 
-  group('ChatListScreen empty state', () {
-    testWidgets('shows no chats message', (tester) async {
-      await pumpChatListScreen(tester);
-      expect(find.text('No chats yet'), findsOneWidget);
-    });
-
-    testWidgets('shows pull to refresh hint', (tester) async {
-      await pumpChatListScreen(tester);
-      expect(find.text('Pull down to refresh'), findsOneWidget);
-    });
-  });
-
-  group('ChatListScreen with welcomes', () {
+  group('with welcomes', () {
     setUp(() => _api.welcomes = [_welcome('w1'), _welcome('w2')]);
 
     testWidgets('shows welcome tiles', (tester) async {
@@ -143,6 +163,14 @@ void main() {
       await tester.tap(find.byType(ChatListWelcomeTile).first);
       await tester.pumpAndSettle();
       expect(find.byType(WipScreen), findsOneWidget);
+    });
+
+    testWidgets('pull to refresh triggers refetch', (tester) async {
+      await pumpChatListScreen(tester);
+      final callsBefore = _api.welcomesCallCount;
+      await tester.fling(find.byType(ListView), const Offset(0, 300), 1000);
+      await tester.pumpAndSettle();
+      expect(_api.welcomesCallCount, greaterThan(callsBefore));
     });
   });
 }

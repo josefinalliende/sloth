@@ -3,6 +3,7 @@ import 'package:flutter/material.dart'
 import 'package:flutter_riverpod/flutter_riverpod.dart' show WidgetRef;
 import 'package:go_router/go_router.dart'
     show CustomTransitionPage, GoRouter, GoRoute, GoRouterState;
+import 'package:sloth/hooks/use_route_refresh.dart' show routeObserver;
 import 'package:sloth/providers/auth_provider.dart' show authProvider;
 import 'package:sloth/screens/chat_list_screen.dart' show ChatListScreen;
 import 'package:sloth/screens/developer_settings_screen.dart' show DeveloperSettingsScreen;
@@ -29,6 +30,7 @@ abstract final class Routes {
   static GoRouter build(WidgetRef ref) {
     return GoRouter(
       initialLocation: _home,
+      observers: [routeObserver],
       redirect: (context, state) {
         final pubkey = ref.read(authProvider).value;
         final isOnPublicPage = _publicRoutes.contains(state.matchedLocation);

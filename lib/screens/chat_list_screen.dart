@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sloth/extensions/build_context.dart';
+import 'package:sloth/hooks/use_route_refresh.dart';
 import 'package:sloth/hooks/use_welcomes.dart';
 import 'package:sloth/providers/account_pubkey_provider.dart';
 import 'package:sloth/routes.dart';
@@ -17,6 +18,8 @@ class ChatListScreen extends HookConsumerWidget {
     final colors = context.colors;
     final pubkey = ref.watch(accountPubkeyProvider);
     final welcomesResult = useWelcomes(pubkey);
+
+    useRouteRefresh(context, welcomesResult.refresh);
 
     return Scaffold(
       backgroundColor: colors.backgroundPrimary,
