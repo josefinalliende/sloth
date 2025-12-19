@@ -30,7 +30,7 @@ class LoginScreen extends HookConsumerWidget {
       try {
         await ref.read(authProvider.notifier).login(nsec);
         if (context.mounted) {
-          Routes.goToOnboarding(context);
+          Routes.goToChatList(context);
         }
       } catch (e) {
         error.value = e.toString();

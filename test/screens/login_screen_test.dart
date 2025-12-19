@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sloth/providers/auth_provider.dart';
 import 'package:sloth/routes.dart';
+import 'package:sloth/screens/chat_list_screen.dart';
 import 'package:sloth/screens/home_screen.dart';
-import 'package:sloth/screens/onboarding_screen.dart';
 import 'package:sloth/src/rust/api/metadata.dart';
 import 'package:sloth/src/rust/frb_generated.dart';
 
@@ -107,23 +107,23 @@ void main() {
       });
 
       group('when login is successful', () {
-        testWidgets('redirects to onboarding screen on success', (tester) async {
+        testWidgets('redirects to chat list screen on success', (tester) async {
           await pumpLoginScreen(tester);
           await tester.enterText(find.byType(TextField), 'nsec1test');
           await tester.tap(find.text('Login'));
           await tester.pumpAndSettle();
-          expect(find.byType(OnboardingScreen), findsOneWidget);
+          expect(find.byType(ChatListScreen), findsOneWidget);
         });
       });
 
       group('when login fails', () {
-        testWidgets('does not redirect to onboarding screen', (tester) async {
+        testWidgets('does not redirect to chat list screen', (tester) async {
           await pumpLoginScreen(tester);
           mockAuth.errorToThrow = Exception('Invalid key');
           await tester.enterText(find.byType(TextField), 'nsec1test');
           await tester.tap(find.text('Login'));
           await tester.pumpAndSettle();
-          expect(find.byType(OnboardingScreen), findsNothing);
+          expect(find.byType(ChatListScreen), findsNothing);
         });
 
         testWidgets('shows error message on failure', (tester) async {
