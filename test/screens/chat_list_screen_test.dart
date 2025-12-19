@@ -7,16 +7,45 @@ import 'package:sloth/routes.dart';
 import 'package:sloth/screens/settings_screen.dart';
 import 'package:sloth/screens/wip_screen.dart';
 import 'package:sloth/src/rust/api/metadata.dart';
+import 'package:sloth/src/rust/api/welcomes.dart';
 import 'package:sloth/src/rust/frb_generated.dart';
+import 'package:sloth/widgets/chat_list_welcome_tile.dart';
 import 'package:sloth/widgets/wn_account_bar.dart';
 import 'package:sloth/widgets/wn_slate_container.dart';
 
+Welcome _welcome(String id) => Welcome(
+  id: id,
+  mlsGroupId: 'mls_$id',
+  nostrGroupId: 'nostr_$id',
+  groupName: 'Group $id',
+  groupDescription: '',
+  groupAdminPubkeys: const [],
+  groupRelays: const [],
+  welcomer: 'welcomer',
+  memberCount: 1,
+  state: WelcomeState.pending,
+  createdAt: BigInt.one,
+);
+
 class _MockApi implements RustLibApi {
+  List<Welcome> welcomes = [];
+
   @override
   Future<FlutterMetadata> crateApiUsersUserMetadata({
     required bool blockingDataSync,
     required String pubkey,
   }) async => const FlutterMetadata(custom: {});
+
+  @override
+  Future<List<Welcome>> crateApiWelcomesPendingWelcomes({
+    required String pubkey,
+  }) async => welcomes;
+
+  @override
+  Future<Welcome> crateApiWelcomesFindWelcomeByEventId({
+    required String pubkey,
+    required String welcomeEventId,
+  }) async => welcomes.firstWhere((w) => w.id == welcomeEventId);
 
   @override
   dynamic noSuchMethod(Invocation invocation) => throw UnimplementedError();
@@ -30,8 +59,12 @@ class _MockAuthNotifier extends AuthNotifier {
   }
 }
 
+final _api = _MockApi();
+
 void main() {
-  setUpAll(() => RustLib.initMock(api: _MockApi()));
+  setUpAll(() => RustLib.initMock(api: _api));
+
+  setUp(() => _api.welcomes = []);
 
   Future<void> pumpChatListScreen(WidgetTester tester) async {
     tester.view.physicalSize = const Size(390, 844);
@@ -75,6 +108,39 @@ void main() {
     testWidgets('tapping chat icon navigates to WIP screen', (tester) async {
       await pumpChatListScreen(tester);
       await tester.tap(find.byKey(const Key('chat_add_button')));
+      await tester.pumpAndSettle();
+      expect(find.byType(WipScreen), findsOneWidget);
+    });
+  });
+
+  group('ChatListScreen empty state', () {
+    testWidgets('shows no chats message', (tester) async {
+      await pumpChatListScreen(tester);
+      expect(find.text('No chats yet'), findsOneWidget);
+    });
+
+    testWidgets('shows pull to refresh hint', (tester) async {
+      await pumpChatListScreen(tester);
+      expect(find.text('Pull down to refresh'), findsOneWidget);
+    });
+  });
+
+  group('ChatListScreen with welcomes', () {
+    setUp(() => _api.welcomes = [_welcome('w1'), _welcome('w2')]);
+
+    testWidgets('shows welcome tiles', (tester) async {
+      await pumpChatListScreen(tester);
+      expect(find.byType(ChatListWelcomeTile), findsNWidgets(2));
+    });
+
+    testWidgets('hides empty state', (tester) async {
+      await pumpChatListScreen(tester);
+      expect(find.text('No chats yet'), findsNothing);
+    });
+
+    testWidgets('tapping tile navigates to WIP screen', (tester) async {
+      await pumpChatListScreen(tester);
+      await tester.tap(find.byType(ChatListWelcomeTile).first);
       await tester.pumpAndSettle();
       expect(find.byType(WipScreen), findsOneWidget);
     });
