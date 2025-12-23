@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart'
-    show BuildContext, CurvedAnimation, Curves, FadeTransition, Widget;
+    show BuildContext, CurvedAnimation, Curves, FadeTransition, Widget, Navigator;
 import 'package:flutter_riverpod/flutter_riverpod.dart' show WidgetRef;
 import 'package:go_router/go_router.dart'
     show CustomTransitionPage, GoRouter, GoRoute, GoRouterState;
+import 'package:sloth/hooks/use_route_refresh.dart' show routeObserver;
 import 'package:sloth/providers/auth_provider.dart' show authProvider;
 import 'package:sloth/screens/chat_list_screen.dart' show ChatListScreen;
 import 'package:sloth/screens/developer_settings_screen.dart' show DeveloperSettingsScreen;
@@ -12,6 +13,7 @@ import 'package:sloth/screens/login_screen.dart' show LoginScreen;
 import 'package:sloth/screens/onboarding_screen.dart' show OnboardingScreen;
 import 'package:sloth/screens/settings_screen.dart' show SettingsScreen;
 import 'package:sloth/screens/signup_screen.dart' show SignupScreen;
+import 'package:sloth/screens/welcome_screen.dart' show WelcomeScreen;
 import 'package:sloth/screens/wip_screen.dart' show WipScreen;
 
 abstract final class Routes {
@@ -24,11 +26,14 @@ abstract final class Routes {
   static const _wip = '/wip';
   static const _onboarding = '/onboarding';
   static const _developerSettings = '/developer-settings';
+  static const _welcome = '/welcomes/:welcomeId';
+
   static const _publicRoutes = {_home, _login, _signup};
 
   static GoRouter build(WidgetRef ref) {
     return GoRouter(
       initialLocation: _home,
+      observers: [routeObserver],
       redirect: (context, state) {
         final pubkey = ref.read(authProvider).value;
         final isOnPublicPage = _publicRoutes.contains(state.matchedLocation);
@@ -102,6 +107,14 @@ abstract final class Routes {
             child: const DeveloperSettingsScreen(),
           ),
         ),
+        GoRoute(
+          name: 'welcome',
+          path: _welcome,
+          pageBuilder: (context, state) => _navigationTransition(
+            state: state,
+            child: WelcomeScreen(welcomeId: state.pathParameters['welcomeId']!),
+          ),
+        ),
       ],
     );
   }
@@ -123,7 +136,11 @@ abstract final class Routes {
   }
 
   static void goBack(BuildContext context) {
-    GoRouter.of(context).pop();
+    if (Navigator.canPop(context)) {
+      GoRouter.of(context).pop();
+    } else {
+      GoRouter.of(context).go(_home);
+    }
   }
 
   static void goToHome(BuildContext context) {
@@ -176,5 +193,9 @@ abstract final class Routes {
 
   static void pushToDeveloperSettings(BuildContext context) {
     GoRouter.of(context).push(_developerSettings);
+  }
+
+  static void pushToWelcome(BuildContext context, String welcomeId) {
+    GoRouter.of(context).pushNamed('welcome', pathParameters: {'welcomeId': welcomeId});
   }
 }
